@@ -1,7 +1,11 @@
 {
-  "homepage": "https://github.com/lcrosvila/Swedish.git",
+  "name": "Swedish",
+  "version": "1.0.0",
+  "homepage": "https://lcrosvila.github.io/Swedish/",
   "scripts": {
+    "start": "parcel index.html --port 3000",
+    "build": "parcel build index.html --public-url https://lcrosvila.github.io/Swedish/",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   }
 }
