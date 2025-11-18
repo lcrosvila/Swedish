@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap");
 
-:root{
+:root {
   --bg: #f7f8ff;
   --card-bg: #ffffff;
   --primary: #6e82ff;
@@ -10,14 +10,10 @@
   --glass: rgba(255,255,255,0.85);
 }
 
-*{box-sizing:border-box}
-html,body,#root{
-  height:100%;
-  margin:0;
-}
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
 
 body {
-  margin: 0;
   font-family: "Nunito", sans-serif;
   background: var(--bg);
   color: var(--text);
@@ -27,23 +23,23 @@ body {
   padding: 24px;
 }
 
-/* Central container that constrains everything */
+.app.dark { background: #1a1b24; color: #fff; }
+
 .container {
   width: 100%;
-  max-width: 420px;         /* controls the app width on desktop */
-  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(247,250,255,0.9));
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 10px 30px rgba(46,60,120,0.08);
+  max-width: 460px;
+  min-height: 92vh;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  justify-content: flex-start;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(247,250,255,0.9));
 }
 
-/* Header */
 header {
   text-align: center;
-  padding-top: 6px;
 }
 
 h1 {
@@ -53,16 +49,16 @@ h1 {
   color: #3b4aa6;
 }
 
-/* toolbar */
+.app.dark h1 { color: #a8b2ff; }
+
 .toolbar {
-  display:flex;
-  gap:8px;
-  justify-content:center;
-  align-items:center;
-  margin-top:6px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6px;
 }
 
-/* Select and icons in the toolbar */
 select {
   padding: 8px 10px;
   border-radius: 10px;
@@ -81,38 +77,26 @@ select {
   box-shadow: 0 6px 18px rgba(76,87,173,0.06);
 }
 
-/* PROGRESS: constrained to the container width (100%) */
-.progress-wrap {
-  width: 100%;
-  padding: 0 6px; /* small horizontal padding so fill doesn't touch edges */
-}
-.progress {
-  width:100%;
-  height: 10px;
-  background: var(--muted);
-  border-radius: 999px;
-  overflow: hidden;
-}
-.progress-fill {
-  height:100%;
-  background: var(--primary);
-  border-radius: 999px;
-  transition: width 0.45s cubic-bezier(.2,.9,.2,1);
+.progress-numbers {
+  margin-top: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #3b4aa6;
 }
 
-/* CARD area */
+.app.dark .progress-numbers { color: #a8b2ff; }
+
 .card-area {
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 6px;
 }
 
-/* Flashcard with flip animation */
 .flashcard {
-  width: 320px;
-  max-width: 100%;
-  height: 200px;
+  width: 360px;
+  max-width: 95%;
+  height: 240px;
   perspective: 1000px;
   cursor: pointer;
   position: relative;
@@ -128,135 +112,37 @@ select {
   border-radius: 18px;
 }
 
-.flashcard.front .inner {
-  transform: rotateY(0deg);
-}
-.flashcard.back .inner {
-  transform: rotateY(180deg);
-}
+.flashcard.front .inner { transform: rotateY(0deg); }
+.flashcard.back .inner { transform: rotateY(180deg); }
 
 .front-side,
 .back-side {
-  position:absolute;
-  inset:0;
+  position: absolute;
+  inset: 0;
   border-radius: 18px;
   backface-visibility: hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   box-shadow: 0 10px 30px rgba(52,64,140,0.08);
   font-size: 28px;
   font-weight: 700;
+  text-align: center;
 }
 
-/* Front styling */
 .front-side {
   background: linear-gradient(180deg, var(--glass), #ffffff);
   color: #16325c;
   border: 1px solid rgba(110,130,255,0.12);
 }
 
-/* Back styling */
 .back-side {
   transform: rotateY(180deg);
   background: linear-gradient(180deg, #5f72ff, #7b61ff);
   color: white;
-  text-align:center;
 }
 
-/* Buttons area - placed below card with spacing */
-.controls {
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  align-items:center;
-  padding: 0 6px;
-}
-
-/* Difficulty buttons row */
-.difficulty-buttons {
-  display:flex;
-  gap: 12px;
-  width:100%;
-  justify-content:center;
-}
-
-/* Make buttons touch friendly */
-.difficulty-buttons button,
-.footer button {
-  padding: 12px 16px;
-  border-radius: 14px;
-  border:none;
-  font-size:16px;
-  cursor:pointer;
-  min-width: 110px;
-}
-
-/* Easy / Hard */
-.difficulty-buttons .easy {
-  background: linear-gradient(180deg, #7bf7b3, #4be37c);
-  color: #04260f;
-  box-shadow: 0 8px 20px rgba(75,227,124,0.18);
-}
-.difficulty-buttons .hard {
-  background: linear-gradient(180deg, #ff9a6b, #ff6b6b);
-  color: #3a0b06;
-  box-shadow: 0 8px 20px rgba(255,107,107,0.18);
-}
-
-/* Footer (next button + streak) */
-.footer {
-  width:100%;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  justify-content:space-between;
-  padding: 0 6px;
-}
-.footer .next-btn {
-  flex:1;
-  background: linear-gradient(180deg,#6e82ff,#5265ff);
-  color: white;
-  font-weight:700;
-  border-radius:14px;
-  padding: 12px 14px;
-  border: none;
-  cursor:pointer;
-  box-shadow: 0 10px 30px rgba(82,101,255,0.14);
-}
-
-/* Streak */
-.streak {
-  margin-left:12px;
-  white-space:nowrap;
-  font-weight:700;
-  font-size:15px;
-}
-
-/* Small screens: stack things and scale down a bit */
-@media (max-width: 480px) {
-  .container {
-    padding: 14px;
-    max-width: 92vw;
-    gap: 12px;
-  }
-
-  h1 { font-size: 20px; }
-
-  .flashcard { height: 180px; }
-
-  .front-side, .back-side { font-size: 22px; padding: 16px; }
-
-  .difficulty-buttons { gap: 10px; flex-direction: column; }
-  .difficulty-buttons button { width: 100%; min-width: 0; }
-
-  .footer { flex-direction: column; gap:10px; align-items: stretch; }
-  .next-btn { width:100%; }
-  .streak { text-align:center; }
-}
-
-/* Hint styling */
 .hint {
   margin-top: 12px;
   font-size: 18px;
@@ -264,31 +150,29 @@ select {
   font-weight: 600;
 }
 
-/* Make container taller and card larger */
-.container {
-  width: 100%;
-  max-width: 440px;
-  min-height: 90vh; /* occupies more vertical space */
+.controls {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 16px;
-  padding: 18px;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(247,250,255,0.9));
+  gap: 12px;
+  align-items: center;
+  padding: 0 6px;
 }
 
-/* Scale up flashcard */
-.flashcard {
-  width: 350px;
-  max-width: 95%;
-  height: 230px;
+.hint-btn,
+.next-btn {
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-/* Adjust mobile layout */
+.hint-btn { background: #ffdd57; color: #2d1f00; }
+.next-btn { background: var(--primary); color: white; }
+
+.streak { font-weight: 700; font-size: 16px; margin-top: 4px; }
+
 @media (max-width: 480px) {
   .flashcard { height: 200px; width: 90%; }
-  .difficulty-buttons { flex-direction: column; }
-  .difficulty-buttons button, .hint-btn { width: 100%; }
-  .footer { flex-direction: column; gap: 10px; align-items: stretch; }
 }
