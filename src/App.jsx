@@ -10,6 +10,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [streak, setStreak] = useState(0);
   const [hintLength, setHintLength] = useState(0);
+  const [shuffle, setShuffle] = useState(false);
 
   const touchStartX = useRef(null);
 
@@ -19,6 +20,7 @@ export default function App() {
     setShowFront(true);
     setHintLength(0);
     setStreak(0);
+    setShuffle(false);
   }, [deckName]);
 
   const card = cards[index] || { front: "No cards", back: "" };
@@ -35,12 +37,31 @@ export default function App() {
   }
 
   function giveHint() {
-    if (!showFront) return; // only hint on front side
+    if (!showFront) return;
     if (hintLength < card.back.length) {
       setHintLength(hintLength + 1);
     } else {
-      setHintLength(0); // reset if fully revealed
+      setHintLength(0);
     }
+  }
+
+  function toggleShuffle() {
+    setShuffle((s) => {
+      const newVal = !s;
+      if (newVal) {
+        const copy = [...cards];
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        setCards(copy);
+        setIndex(0);
+      } else {
+        setCards(decks[deckName]);
+        setIndex(0);
+      }
+      return newVal;
+    });
   }
 
   function onTouchStart(e) {
@@ -63,10 +84,11 @@ export default function App() {
     : "";
 
   return (
-    <div className={`app ${darkMode ? "dark" : ""}`} style={{ width: "100%", minHeight: "100vh", paddingTop: "24px", paddingBottom: "24px" }}>
+    <div className={`app ${darkMode ? "dark" : ""}`}>
       <div className="container">
         <header>
-          <h1>✨ Swedish Practice✨</h1>
+          <h1>✨ Playful Swedish ✨</h1>
+
           <div className="toolbar">
             <select value={deckName} onChange={(e) => setDeckName(e.target.value)}>
               {Object.keys(decks).map((d) => (
@@ -77,7 +99,12 @@ export default function App() {
             <button className="icon" onClick={() => setDarkMode((d) => !d)}>
               {darkMode ? "🌙" : "☀️"}
             </button>
+
+            <button className="icon" onClick={toggleShuffle}>
+              {shuffle ? "🔀" : "➡️"}
+            </button>
           </div>
+
           <div className="progress-numbers">
             {index + 1} / {cards.length}
           </div>
@@ -94,7 +121,7 @@ export default function App() {
           >
             <div className="inner">
               <div className="front-side">
-                {card.front}
+                <div className="swedish-word">{card.front}</div>
                 {hintLength > 0 && <div className="hint">💡 {hint}</div>}
               </div>
               <div className="back-side">{card.back}</div>

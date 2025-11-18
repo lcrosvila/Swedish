@@ -18,24 +18,21 @@ body {
   background: var(--bg);
   color: var(--text);
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 0;
+  margin: 0;
 }
 
 .app.dark { background: #1a1b24; color: #fff; }
 
 .container {
-  width: 100%;
-  max-width: 460px;
-  min-height: 92vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 18px;
-  padding: 18px;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(247,250,255,0.9));
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
 }
 
 header {
@@ -57,6 +54,7 @@ h1 {
   justify-content: center;
   align-items: center;
   margin-top: 6px;
+  flex-wrap: wrap;
 }
 
 select {
@@ -87,16 +85,17 @@ select {
 .app.dark .progress-numbers { color: #a8b2ff; }
 
 .card-area {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 6px;
+  width: 100%;
 }
 
 .flashcard {
-  width: 360px;
-  max-width: 95%;
-  height: 240px;
+  width: 90%;
+  max-width: 400px;
+  aspect-ratio: 16/9;
   perspective: 1000px;
   cursor: pointer;
   position: relative;
@@ -122,8 +121,9 @@ select {
   border-radius: 18px;
   backface-visibility: hidden;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 20px;
   box-shadow: 0 10px 30px rgba(52,64,140,0.08);
   font-size: 28px;
@@ -143,6 +143,8 @@ select {
   color: white;
 }
 
+.swedish-word { font-size: 32px; font-weight: 800; }
+
 .hint {
   margin-top: 12px;
   font-size: 18px;
@@ -155,7 +157,8 @@ select {
   flex-direction: column;
   gap: 12px;
   align-items: center;
-  padding: 0 6px;
+  margin-top: 12px;
+  width: 100%;
 }
 
 .hint-btn,
@@ -166,6 +169,8 @@ select {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  width: 80%;
+  max-width: 300px;
 }
 
 .hint-btn { background: #ffdd57; color: #2d1f00; }
@@ -174,5 +179,8 @@ select {
 .streak { font-weight: 700; font-size: 16px; margin-top: 4px; }
 
 @media (max-width: 480px) {
-  .flashcard { height: 200px; width: 90%; }
+  .flashcard { aspect-ratio: 4/3; width: 90%; }
+  .swedish-word { font-size: 26px; }
+  .hint { font-size: 16px; }
+  .hint-btn, .next-btn { width: 100%; }
 }
