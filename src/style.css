@@ -255,3 +255,40 @@ select {
   .next-btn { width:100%; }
   .streak { text-align:center; }
 }
+
+/* Hint styling */
+.hint {
+  margin-top: 12px;
+  font-size: 18px;
+  color: #ffb700;
+  font-weight: 600;
+}
+
+/* Make container taller and card larger */
+.container {
+  width: 100%;
+  max-width: 440px;
+  min-height: 90vh; /* occupies more vertical space */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(247,250,255,0.9));
+}
+
+/* Scale up flashcard */
+.flashcard {
+  width: 350px;
+  max-width: 95%;
+  height: 230px;
+}
+
+/* Adjust mobile layout */
+@media (max-width: 480px) {
+  .flashcard { height: 200px; width: 90%; }
+  .difficulty-buttons { flex-direction: column; }
+  .difficulty-buttons button, .hint-btn { width: 100%; }
+  .footer { flex-direction: column; gap: 10px; align-items: stretch; }
+}

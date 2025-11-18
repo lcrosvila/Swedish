@@ -10,6 +10,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [shuffle, setShuffle] = useState(false);
   const [streak, setStreak] = useState(0);
+  const [hintLength, setHintLength] = useState(0);
 
   const touchStartX = useRef(null);
 
@@ -18,12 +19,17 @@ export default function App() {
     setIndex(0);
     setShowFront(true);
     setShuffle(false);
+    setHintLength(0);
   }, [deckName]);
+
+  const card = cards[index] || { front: "No cards", back: "" };
+  const progressPercent = Math.round(((index + 1) / cards.length) * 100);
 
   function nextCard() {
     setIndex((prev) => (prev + 1) % cards.length);
     setShowFront(true);
     setStreak((s) => s + 1);
+    setHintLength(0);
   }
 
   function flipCard() {
@@ -34,13 +40,21 @@ export default function App() {
     if (level === "hard" && cards.length > 1) {
       const reinjectPos = (index + 2) % cards.length;
       const newOrder = [...cards];
-      const [card] = newOrder.splice(index, 1);
-      newOrder.splice(reinjectPos, 0, card);
+      const [c] = newOrder.splice(index, 1);
+      newOrder.splice(reinjectPos, 0, c);
       setCards(newOrder);
-      // keep index same so next visible card changes naturally
       setShowFront(true);
     } else {
       nextCard();
+    }
+  }
+
+  function giveHint() {
+    if (!showFront) return; // only hint when front is showing
+    if (hintLength < card.back.length) {
+      setHintLength(hintLength + 1);
+    } else {
+      setHintLength(0); // reset if fully revealed
     }
   }
 
@@ -55,8 +69,8 @@ export default function App() {
     const delta = endX - touchStartX.current;
     touchStartX.current = null;
 
-    if (delta < -50) nextCard();     // swipe left -> next
-    else if (delta > 50) flipCard(); // swipe right -> flip
+    if (delta < -50) nextCard();
+    else if (delta > 50) flipCard();
   }
 
   function toggleShuffle() {
@@ -78,20 +92,17 @@ export default function App() {
     });
   }
 
-  const card = cards[index] || { front: "No cards", back: "" };
-  const progressPercent = Math.round(((index + 1) / cards.length) * 100);
+  const hint = hintLength > 0 ? `${card.back.substring(0, hintLength)}${hintLength < card.back.length ? "..." : ""}` : "";
 
   return (
-    <div className={`app ${darkMode ? "dark" : ""}`} style={{width: "100%"}}>
+    <div className={`app ${darkMode ? "dark" : ""}`} style={{ width: "100%", minHeight: "100vh", paddingTop: "24px", paddingBottom: "24px" }}>
       <div className="container">
         <header>
-          <h1>✨ Swedish practice ✨</h1>
+          <h1>✨ Swedish Practice ✨</h1>
           <div className="toolbar">
             <select value={deckName} onChange={(e) => setDeckName(e.target.value)}>
               {Object.keys(decks).map((d) => (
-                <option key={d} value={d}>
-                  {d}
-                </option>
+                <option key={d} value={d}>{d}</option>
               ))}
             </select>
 
@@ -121,7 +132,10 @@ export default function App() {
             aria-label="Flashcard"
           >
             <div className="inner">
-              <div className="front-side">{card.front}</div>
+              <div className="front-side">
+                {card.front}
+                {hintLength > 0 && <div className="hint">💡 {hint}</div>}
+              </div>
               <div className="back-side">{card.back}</div>
             </div>
           </div>
@@ -129,18 +143,13 @@ export default function App() {
 
         <div className="controls">
           <div className="difficulty-buttons">
-            <button className="easy" onClick={() => markDifficulty("easy")}>
-              😊 Easy
-            </button>
-            <button className="hard" onClick={() => markDifficulty("hard")}>
-              🔥 Hard
-            </button>
+            <button className="easy" onClick={() => markDifficulty("easy")}>😊 Easy</button>
+            <button className="hard" onClick={() => markDifficulty("hard")}>🔥 Hard</button>
+            <button className="hint-btn" onClick={giveHint}>💡 Hint</button>
           </div>
 
           <div className="footer">
-            <button className="next-btn" onClick={nextCard}>
-              Next ➡️
-            </button>
+            <button className="next-btn" onClick={nextCard}>Next ➡️</button>
             <div className="streak">🔥 <strong>{streak}</strong></div>
           </div>
         </div>
