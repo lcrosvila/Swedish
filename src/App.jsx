@@ -87,7 +87,7 @@ export default function App() {
     <div className={`app ${darkMode ? "dark" : ""}`}>
       <div className="container">
         <header>
-          <h1>✨ Playful Swedish ✨</h1>
+          <h1>✨ Swedish Practice ✨</h1>
 
           <div className="toolbar">
             <select value={deckName} onChange={(e) => setDeckName(e.target.value)}>

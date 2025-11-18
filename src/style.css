@@ -17,10 +17,8 @@ body {
   font-family: "Nunito", sans-serif;
   background: var(--bg);
   color: var(--text);
-  display: flex;
-  justify-content: center;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 .app.dark { background: #1a1b24; color: #fff; }
@@ -28,15 +26,16 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
   padding: 24px;
+  min-height: 100vh;
 }
 
 header {
   text-align: center;
+  width: 100%;
 }
 
 h1 {
@@ -99,7 +98,6 @@ select {
   perspective: 1000px;
   cursor: pointer;
   position: relative;
-  z-index: 1;
 }
 
 .flashcard .inner {
