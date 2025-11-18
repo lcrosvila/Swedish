@@ -1,90 +1,257 @@
-/* ---- Global styles ---- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap");
+
+:root{
+  --bg: #f7f8ff;
+  --card-bg: #ffffff;
+  --primary: #6e82ff;
+  --accent: #4be37c;
+  --muted: #dfe3ff;
+  --text: #111827;
+  --glass: rgba(255,255,255,0.85);
+}
+
+*{box-sizing:border-box}
+html,body,#root{
+  height:100%;
+  margin:0;
+}
 
 body {
   margin: 0;
-  font-family: "Inter", sans-serif;
-  background: linear-gradient(135deg, #f0f4ff, #e8faff);
-  height: 100vh;
+  font-family: "Nunito", sans-serif;
+  background: var(--bg);
+  color: var(--text);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  padding: 24px;
 }
 
-/* ---- App Container ---- */
-.app-container {
-  width: 420px;
-  max-width: 90vw;
+/* Central container that constrains everything */
+.container {
+  width: 100%;
+  max-width: 420px;         /* controls the app width on desktop */
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(247,250,255,0.9));
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(46,60,120,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Header */
+header {
   text-align: center;
+  padding-top: 6px;
 }
 
-/* ---- Header ---- */
 h1 {
-  font-weight: 600;
-  margin-bottom: 20px;
-  font-size: 28px;
-  color: #2d3a4a;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #3b4aa6;
 }
 
-/* ---- Flashcard ---- */
-.flashcard {
+/* toolbar */
+.toolbar {
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  align-items:center;
+  margin-top:6px;
+}
+
+/* Select and icons in the toolbar */
+select {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #e6e9ff;
+  font-size: 14px;
   background: white;
-  padding: 35px 20px;
-  border-radius: 16px;
-  min-height: 150px;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 26px;
-  font-weight: 500;
-  cursor: pointer;
-
-  transition: transform 0.35s ease, background 0.35s;
 }
 
-.flashcard:hover {
-  transform: scale(1.02);
-  background: #f7fbff;
-}
-
-/* Text fades in smoothly */
-.fade {
-  animation: fadeIn 0.4s ease;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ---- Buttons ---- */
-.buttons {
-  margin-top: 25px;
-  display: flex;
-  justify-content: space-between;
-}
-
-button {
-  flex: 1;
-  padding: 12px 20px;
-  margin: 0 5px;
-  
+.icon {
+  background: white;
+  border-radius: 10px;
   border: none;
-  border-radius: 12px;
-
-  background: #4f7cff;
-  color: white;
+  padding: 8px;
   font-size: 16px;
-  font-weight: 500;
-
   cursor: pointer;
-  transition: background 0.25s ease, transform 0.2s;
+  box-shadow: 0 6px 18px rgba(76,87,173,0.06);
 }
 
-button:hover {
-  background: #2d5cf5;
+/* PROGRESS: constrained to the container width (100%) */
+.progress-wrap {
+  width: 100%;
+  padding: 0 6px; /* small horizontal padding so fill doesn't touch edges */
+}
+.progress {
+  width:100%;
+  height: 10px;
+  background: var(--muted);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height:100%;
+  background: var(--primary);
+  border-radius: 999px;
+  transition: width 0.45s cubic-bezier(.2,.9,.2,1);
 }
 
-button:active {
-  transform: scale(0.97);
+/* CARD area */
+.card-area {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding: 6px;
+}
+
+/* Flashcard with flip animation */
+.flashcard {
+  width: 320px;
+  max-width: 100%;
+  height: 200px;
+  perspective: 1000px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.flashcard .inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.7s ease;
+  transform-style: preserve-3d;
+  border-radius: 18px;
+}
+
+.flashcard.front .inner {
+  transform: rotateY(0deg);
+}
+.flashcard.back .inner {
+  transform: rotateY(180deg);
+}
+
+.front-side,
+.back-side {
+  position:absolute;
+  inset:0;
+  border-radius: 18px;
+  backface-visibility: hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(52,64,140,0.08);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* Front styling */
+.front-side {
+  background: linear-gradient(180deg, var(--glass), #ffffff);
+  color: #16325c;
+  border: 1px solid rgba(110,130,255,0.12);
+}
+
+/* Back styling */
+.back-side {
+  transform: rotateY(180deg);
+  background: linear-gradient(180deg, #5f72ff, #7b61ff);
+  color: white;
+  text-align:center;
+}
+
+/* Buttons area - placed below card with spacing */
+.controls {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:center;
+  padding: 0 6px;
+}
+
+/* Difficulty buttons row */
+.difficulty-buttons {
+  display:flex;
+  gap: 12px;
+  width:100%;
+  justify-content:center;
+}
+
+/* Make buttons touch friendly */
+.difficulty-buttons button,
+.footer button {
+  padding: 12px 16px;
+  border-radius: 14px;
+  border:none;
+  font-size:16px;
+  cursor:pointer;
+  min-width: 110px;
+}
+
+/* Easy / Hard */
+.difficulty-buttons .easy {
+  background: linear-gradient(180deg, #7bf7b3, #4be37c);
+  color: #04260f;
+  box-shadow: 0 8px 20px rgba(75,227,124,0.18);
+}
+.difficulty-buttons .hard {
+  background: linear-gradient(180deg, #ff9a6b, #ff6b6b);
+  color: #3a0b06;
+  box-shadow: 0 8px 20px rgba(255,107,107,0.18);
+}
+
+/* Footer (next button + streak) */
+.footer {
+  width:100%;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  padding: 0 6px;
+}
+.footer .next-btn {
+  flex:1;
+  background: linear-gradient(180deg,#6e82ff,#5265ff);
+  color: white;
+  font-weight:700;
+  border-radius:14px;
+  padding: 12px 14px;
+  border: none;
+  cursor:pointer;
+  box-shadow: 0 10px 30px rgba(82,101,255,0.14);
+}
+
+/* Streak */
+.streak {
+  margin-left:12px;
+  white-space:nowrap;
+  font-weight:700;
+  font-size:15px;
+}
+
+/* Small screens: stack things and scale down a bit */
+@media (max-width: 480px) {
+  .container {
+    padding: 14px;
+    max-width: 92vw;
+    gap: 12px;
+  }
+
+  h1 { font-size: 20px; }
+
+  .flashcard { height: 180px; }
+
+  .front-side, .back-side { font-size: 22px; padding: 16px; }
+
+  .difficulty-buttons { gap: 10px; flex-direction: column; }
+  .difficulty-buttons button { width: 100%; min-width: 0; }
+
+  .footer { flex-direction: column; gap:10px; align-items: stretch; }
+  .next-btn { width:100%; }
+  .streak { text-align:center; }
 }
