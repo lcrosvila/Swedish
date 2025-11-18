@@ -96,4 +96,32 @@ const App = () => {
   );
 };
 
-export default App;
+export default function App() {
+  const [index, setIndex] = useState(0);
+  const [showFront, setShowFront] = useState(true);
+
+  const card = cards[index];
+
+  function nextCard() {
+    setIndex((prev) => (prev + 1) % cards.length);
+    setShowFront(true);
+  }
+
+  function flipCard() {
+    setShowFront((prev) => !prev);
+  }
+
+  return (
+    <div className="app-container">
+      <h1>Swedish Flashcards</h1>
+
+      <div className="flashcard fade" onClick={flipCard}>
+        {showFront ? card.front : card.back}
+      </div>
+
+      <div className="buttons">
+        <button onClick={nextCard}>Next</button>
+      </div>
+    </div>
+  );
+}
